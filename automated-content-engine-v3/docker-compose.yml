@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:latest
+    container_name: ace-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ace-network
+
+  # Backend (NestJS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ace-backend
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - ace-network
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/ace-v3
+      - JWT_SECRET=dev_secret_key_change_in_prod
+      - NODE_ENV=development
+
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ace-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - ace-network
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+
+volumes:
+  mongo-data:
+
+networks:
+  ace-network:
+    driver: bridge
