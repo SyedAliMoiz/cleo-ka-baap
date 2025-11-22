@@ -1,8 +1,8 @@
 "use client";
 
-import { AppShell, Burger, Group, NavLink, Text } from "@mantine/core";
+import { AppShell, Burger, Group, NavLink, Text, ThemeIcon } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSettings, IconDatabase, IconRobot, IconKey } from "@tabler/icons-react";
+import { IconSettings, IconDatabase, IconRobot, IconKey, IconShieldLock } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,7 +27,10 @@ export default function AdminLayout({
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Text fw={700} size="lg">ACE Admin</Text>
+          <ThemeIcon color="red" variant="light">
+            <IconShieldLock size={20} />
+          </ThemeIcon>
+          <Text fw={700} size="lg" c="red.8">ACE Admin Panel</Text>
         </Group>
       </AppShell.Header>
 
@@ -38,6 +41,8 @@ export default function AdminLayout({
           label="API Providers"
           leftSection={<IconKey size="1rem" stroke={1.5} />}
           active={pathname === "/admin/providers"}
+          color="red"
+          variant="filled"
         />
         <NavLink
           component={Link}
@@ -45,6 +50,8 @@ export default function AdminLayout({
           label="Modules"
           leftSection={<IconRobot size="1rem" stroke={1.5} />}
           active={pathname === "/admin/modules"}
+          color="red"
+          variant="filled"
         />
         <NavLink
           component={Link}
@@ -52,6 +59,8 @@ export default function AdminLayout({
           label="Knowledge Base"
           leftSection={<IconDatabase size="1rem" stroke={1.5} />}
           active={pathname === "/admin/knowledge"}
+          color="red"
+          variant="filled"
         />
       </AppShell.Navbar>
 

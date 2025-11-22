@@ -1,8 +1,8 @@
 "use client";
 
-import { Container, Stepper, Button, Group, Title, Paper, Text, Stack, Card, SimpleGrid, Badge, Textarea, LoadingOverlay } from "@mantine/core";
+import { Container, Stepper, Button, Group, Title, Paper, Text, Stack, Card, SimpleGrid, Badge, Textarea, LoadingOverlay, ThemeIcon, Box, Transition } from "@mantine/core";
 import { useState } from "react";
-import { IconBulb, IconSearch, IconWriting, IconWand, IconCheck } from "@tabler/icons-react";
+import { IconBulb, IconSearch, IconWriting, IconWand, IconCheck, IconSparkles, IconArrowRight } from "@tabler/icons-react";
 
 export default function WorkflowWizard() {
   const [active, setActive] = useState(0);
@@ -18,46 +18,42 @@ export default function WorkflowWizard() {
   const [selectedHook, setSelectedHook] = useState<string>("");
   const [ctaOptions, setCtaOptions] = useState<string[]>([]);
 
-  // Steps Handlers
+  // Handlers (Mock)
   const handleGenerateTopics = async () => {
     setLoading(true);
-    // Call API /modules/run with 'topic-generator'
     setTimeout(() => {
         setGeneratedTopics([
-            "Why most SaaS founders fail at marketing (and how to fix it)",
+            "Why most SaaS founders fail at marketing",
             "The 5-step framework for scaling to $1M ARR",
             "Stop doing cold outreach. Do this instead.",
             "My controversial take on Product Led Growth"
         ]);
         setLoading(false);
-        setActive(1); // Move to Topic Select
-    }, 1500);
+        setActive(1);
+    }, 1200);
   };
 
   const handleResearch = async () => {
-     if (!selectedTopic) return alert("Select a topic!");
+     if (!selectedTopic) return;
      setLoading(true);
-     // Call API /modules/run with 'targeted-research'
      setTimeout(() => {
         setResearchData("- 90% of SaaS fail in 5 years\n- CAC is rising by 20% YoY\n- Source: TechCrunch 2024 report...");
         setLoading(false);
         setActive(2);
-     }, 1500);
+     }, 1200);
   };
 
   const handleWriteThread = async () => {
       setLoading(true);
-      // Call API /modules/run with 'thread-writer'
       setTimeout(() => {
           setThreadDraft("1/ Most SaaS founders fail because they build first and sell later.\n\nHere's why that's a death sentence 🧵\n\n2/ The market doesn't care about your code...\n\n3/ ...");
           setLoading(false);
           setActive(3);
-      }, 2000);
+      }, 1500);
   };
 
   const handlePolishHooks = async () => {
       setLoading(true);
-      // Call API /modules/run with 'hook-polisher'
       setTimeout(() => {
           setHookVariants([
               "I built a $1M SaaS in 6 months. Here is the exact playbook 🧵",
@@ -66,12 +62,11 @@ export default function WorkflowWizard() {
           ]);
           setLoading(false);
           setActive(4);
-      }, 1500);
+      }, 1200);
   };
 
   const handleGenerateCTA = async () => {
       setLoading(true);
-      // Call API /modules/run with 'cta-generator'
       setTimeout(() => {
           setCtaOptions([
               "Follow me @user for more SaaS tips!",
@@ -85,32 +80,47 @@ export default function WorkflowWizard() {
 
   return (
     <Container size="xl" py="xl">
-        <Title order={2} mb="xl" ta="center">New Thread Workflow</Title>
+        <Box mb={40} style={{ textAlign: 'center' }}>
+            <Badge variant="dot" color="cyan" size="lg" mb="xs">AI Content Workflow</Badge>
+            <Title order={1}>New Thread Generator</Title>
+            <Text c="dimmed" mt="sm">From idea to viral thread in 5 steps.</Text>
+        </Box>
 
-        <Stepper active={active} onStepClick={setActive} mb="xl">
-            <Stepper.Step label="Topic" description="Generate & Select" icon={<IconBulb size={18} />} />
-            <Stepper.Step label="Research" description="Gather Facts" icon={<IconSearch size={18} />} />
-            <Stepper.Step label="Draft" description="Write Thread" icon={<IconWriting size={18} />} />
-            <Stepper.Step label="Hooks" description="Polish & Pick" icon={<IconWand size={18} />} />
-            <Stepper.Step label="CTA" description="Finalize" icon={<IconCheck size={18} />} />
+        <Stepper active={active} onStepClick={setActive} mb={50} color="cyan" radius="md">
+            <Stepper.Step label="Topic" description="Ideation" icon={<IconBulb size={18} />} />
+            <Stepper.Step label="Research" description="Facts" icon={<IconSearch size={18} />} />
+            <Stepper.Step label="Draft" description="Writing" icon={<IconWriting size={18} />} />
+            <Stepper.Step label="Hooks" description="Viralize" icon={<IconWand size={18} />} />
+            <Stepper.Step label="CTA" description="Finish" icon={<IconCheck size={18} />} />
         </Stepper>
 
-        <Paper p="xl" withBorder pos="relative" mih={400}>
-            <LoadingOverlay visible={loading} />
+        <Paper p={40} withBorder shadow="md" radius="lg" pos="relative" mih={400}>
+            <LoadingOverlay visible={loading} overlayProps={{ radius: "sm", blur: 2 }} loaderProps={{ color: 'cyan', type: 'bars' }} />
 
             {/* Step 0: Topic Generation */}
             {active === 0 && (
-                <Stack>
-                    <Text>Click to generate topics for <strong>My Tech Brand</strong> based on your Voice Guide.</Text>
-                    <Button onClick={handleGenerateTopics}>Generate Topics</Button>
+                <Stack align="center" justify="center" mih={300}>
+                    <ThemeIcon size={80} radius="100%" variant="light" color="indigo" mb="md">
+                        <IconSparkles size={40} />
+                    </ThemeIcon>
+                    <Title order={3}>Ready to brainstorm?</Title>
+                    <Text c="dimmed" ta="center" maw={500} mb="xl">
+                        We will analyze your client's Voice Guide and Niche to generate high-performance topic ideas.
+                    </Text>
+                    <Button size="lg" onClick={handleGenerateTopics} rightSection={<IconArrowRight size={18} />}>
+                        Generate Topics
+                    </Button>
                 </Stack>
             )}
 
             {/* Step 1: Select Topic */}
             {active === 1 && (
                 <Stack>
-                    <Title order={4}>Select a Topic</Title>
-                    <SimpleGrid cols={2}>
+                    <Group justify="space-between">
+                        <Title order={3}>Select a Topic</Title>
+                        <Badge color="indigo">{generatedTopics.length} Ideas Generated</Badge>
+                    </Group>
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
                         {generatedTopics.map((topic) => (
                             <Card
                                 key={topic}
@@ -118,15 +128,21 @@ export default function WorkflowWizard() {
                                 shadow="sm"
                                 padding="lg"
                                 radius="md"
-                                style={{ cursor: 'pointer', borderColor: selectedTopic === topic ? '#228be6' : undefined, borderWidth: selectedTopic === topic ? 2 : 1 }}
                                 onClick={() => setSelectedTopic(topic)}
+                                style={{
+                                    cursor: 'pointer',
+                                    borderColor: selectedTopic === topic ? 'var(--mantine-color-cyan-6)' : undefined,
+                                    borderWidth: selectedTopic === topic ? 2 : 1,
+                                    backgroundColor: selectedTopic === topic ? 'var(--mantine-color-cyan-0)' : undefined,
+                                    transition: 'all 0.2s ease'
+                                }}
                             >
-                                <Text fw={500}>{topic}</Text>
+                                <Text fw={600} size="lg" lh={1.4}>{topic}</Text>
                             </Card>
                         ))}
                     </SimpleGrid>
-                    <Group justify="flex-end">
-                         <Button onClick={handleResearch} disabled={!selectedTopic}>Start Research</Button>
+                    <Group justify="flex-end" mt="xl">
+                         <Button size="md" onClick={handleResearch} disabled={!selectedTopic}>Start Research</Button>
                     </Group>
                 </Stack>
             )}
@@ -134,15 +150,17 @@ export default function WorkflowWizard() {
             {/* Step 2: Research */}
             {active === 2 && (
                 <Stack>
-                    <Title order={4}>Research Data</Title>
+                    <Title order={3}>Research Data</Title>
                     <Textarea
                         value={researchData}
                         onChange={(e) => setResearchData(e.target.value)}
-                        minRows={10}
+                        minRows={12}
+                        radius="md"
                         label="Review & Edit Facts"
+                        styles={{ input: { fontFamily: 'monospace', fontSize: '14px' } }}
                     />
-                    <Group justify="flex-end">
-                         <Button onClick={handleWriteThread}>Write Thread Draft</Button>
+                    <Group justify="flex-end" mt="md">
+                         <Button size="md" onClick={handleWriteThread}>Write Thread Draft</Button>
                     </Group>
                 </Stack>
             )}
@@ -150,14 +168,15 @@ export default function WorkflowWizard() {
             {/* Step 3: Draft */}
             {active === 3 && (
                 <Stack>
-                    <Title order={4}>Thread Draft</Title>
+                    <Title order={3}>Thread Draft</Title>
                     <Textarea
                         value={threadDraft}
                         onChange={(e) => setThreadDraft(e.target.value)}
                         minRows={15}
+                        radius="md"
                     />
-                    <Group justify="flex-end">
-                         <Button onClick={handlePolishHooks}>Polish Hooks</Button>
+                    <Group justify="flex-end" mt="md">
+                         <Button size="md" onClick={handlePolishHooks}>Polish Hooks</Button>
                     </Group>
                 </Stack>
             )}
@@ -165,37 +184,52 @@ export default function WorkflowWizard() {
              {/* Step 4: Hooks */}
              {active === 4 && (
                 <Stack>
-                    <Title order={4}>Select Final Hook</Title>
-                    <Stack>
+                    <Title order={3}>Choose the Best Hook</Title>
+                    <Text c="dimmed" mb="md">Select the most attention-grabbing opener.</Text>
+                    <Stack gap="md">
                         {hookVariants.map((hook) => (
                              <Card
                              key={hook}
                              withBorder
-                             padding="md"
-                             style={{ cursor: 'pointer', backgroundColor: selectedHook === hook ? '#f0f9ff' : undefined }}
+                             padding="lg"
+                             radius="md"
                              onClick={() => setSelectedHook(hook)}
+                             style={{
+                                 cursor: 'pointer',
+                                 borderColor: selectedHook === hook ? 'var(--mantine-color-cyan-6)' : undefined,
+                                 borderWidth: selectedHook === hook ? 2 : 1,
+                                 backgroundColor: selectedHook === hook ? 'var(--mantine-color-cyan-0)' : undefined
+                             }}
                          >
-                             <Text>{hook}</Text>
+                             <Text size="lg">{hook}</Text>
                          </Card>
                         ))}
                     </Stack>
-                    <Group justify="flex-end">
-                         <Button onClick={handleGenerateCTA} disabled={!selectedHook}>Generate CTA</Button>
+                    <Group justify="flex-end" mt="xl">
+                         <Button size="md" onClick={handleGenerateCTA} disabled={!selectedHook}>Generate CTA</Button>
                     </Group>
                 </Stack>
             )}
 
              {/* Step 5: CTA */}
              {active === 5 && (
-                <Stack>
-                    <Title order={4}>Finalize Thread</Title>
-                    <Text size="sm" c="dimmed">Complete Thread Preview</Text>
-                    <Paper withBorder p="md" bg="gray.0">
-                        <Text fw={700} mb="md">{selectedHook}</Text>
-                        <Text style={{ whiteSpace: 'pre-line' }}>{threadDraft}</Text>
-                        <Text mt="md" c="blue">{ctaOptions[0] || "CTA Placeholder"}</Text>
+                <Stack align="center">
+                    <ThemeIcon size={60} radius="100%" color="green" variant="light" mb="md">
+                        <IconCheck size={32} />
+                    </ThemeIcon>
+                    <Title order={2}>Thread Ready!</Title>
+                    <Text c="dimmed" mb="xl">Your content is ready to be published.</Text>
+
+                    <Paper withBorder p="xl" bg="gray.0" w="100%" maw={600} radius="md">
+                        <Text fw={700} mb="md" size="lg">{selectedHook}</Text>
+                        <Text style={{ whiteSpace: 'pre-line' }} mb="md">{threadDraft}</Text>
+                        <Text c="blue" fw={500}>{ctaOptions[0] || "CTA Placeholder"}</Text>
                     </Paper>
-                    <Button color="green" fullWidth mt="xl" onClick={() => alert("Thread Published to Dashboard!")}>Save & Finish</Button>
+
+                    <Group mt="xl">
+                        <Button variant="default" onClick={() => setActive(0)}>Start Over</Button>
+                        <Button color="green" size="md" onClick={() => alert("Saved to Library!")}>Save to Library</Button>
+                    </Group>
                 </Stack>
             )}
 
