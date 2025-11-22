@@ -1,0 +1,41 @@
+readme.md
+ace-key.pem
+ACE Software Requirements Specification (SRS).pdf
+
+# Added by Claude Task Master
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+node_modules/
+# Environment variables
+.env
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+.DS_Store
+# Task files
+tasks.json
+tasks/ 
+/.roo
+/.cursor
+.roomodes
+.taskmasterconfig
+.windsurfrules
+scripts/example_prd.txt
+scripts/thread_writer_prd.txt
+response.json
+threads.json
+prompt-dont-delete.txt
+dellete-mongo.txt
+delete-chat.sh

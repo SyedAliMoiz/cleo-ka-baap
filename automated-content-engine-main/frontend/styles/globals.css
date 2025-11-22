@@ -1,0 +1,651 @@
+/* Define layer order explicitly */
+@layer tw, tw.theme, tw.base, tw.components, tw.utilities, custom;
+
+/* Import Tailwind as a whole first */
+@import "tailwindcss" layer(tw);
+
+/* Custom base styles in the base layer */
+@layer tw.base {
+  /* Light mode defaults - UPDATED: Whiter colors */
+:root {
+    /* Brand colors */
+    --primary: #7C3AED;
+    --primary-light: #9F7AEA;
+    --primary-dark: #5B21B6;
+    --secondary: #0EA5E9;
+    --secondary-light: #38BDF8;
+    --secondary-dark: #0369A1;
+    --accent: #F97316;
+    
+    /* UI colors - LIGHT MODE: Much whiter */
+    --surface: #FFFFFF;
+    --surface-light: #FAFAFA;
+    --surface-dark: #F5F5F5;
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-tertiary: #4B5563;
+    --border-color: #E5E7EB;
+    
+    /* Hover states for light mode */
+    --hover-light: #F3F4F6;
+    --hover-primary: rgba(124, 58, 237, 0.1);
+    --hover-secondary: rgba(14, 165, 233, 0.1);
+  }
+
+  /* Dark mode overrides - Keep current dark theme */
+  .dark {
+    /* UI colors for dark mode */
+    --surface: #1E1E23 !important;
+    --surface-light: #2A2A32 !important;
+    --surface-dark: #131316 !important;
+    --text-primary: #F8FAFC !important;
+    --text-secondary: #CBD5E1 !important;
+    --text-tertiary: #94A3B8 !important;
+    --border-color: #2D2D35 !important;
+    
+    /* Hover states for dark mode */
+    --hover-light: #2D2D35 !important;
+    --hover-primary: rgba(124, 58, 237, 0.2) !important;
+    --hover-secondary: rgba(14, 165, 233, 0.2) !important;
+  }
+
+  /* Force colors for debugging */
+  .light-mode-force {
+    color-scheme: light;
+  }
+
+  .dark-mode-force {
+    color-scheme: dark;
+  }
+
+  @font-face {
+    font-family: 'CalSans';
+    src: url('/fonts/CalSans-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+
+  /* Apply dark mode to html element */
+  html.dark {
+    background-color: var(--surface-dark) !important;
+    color: var(--text-primary) !important;
+    color-scheme: dark !important;
+  }
+
+  /* Additional direct dark mode selectors for debugging */
+  html.dark body {
+    background-color: var(--surface-dark) !important;
+    color: var(--text-primary) !important;
+  }
+
+  html:not(.dark) {
+    background-color: white !important;
+    color: var(--text-primary) !important;
+    color-scheme: light !important;
+  }
+
+  /* Customize scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--surface-light);
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: var(--surface-dark);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #4B5563;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #6B7280;
+  }
+
+  /* Reset styles - but make sure we don't conflict with Tailwind's padding/margin */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'CalSans', system-ui, sans-serif;
+    font-weight: 600;
+  }
+}
+
+/* Custom components in the components layer */
+@layer tw.components {
+  /* Hide scrollbar utility class */
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+
+  /* Markdown content styles */
+  .markdown-content {
+    /* Basic styles */
+    line-height: 1.7;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .markdown-content h1, 
+  .markdown-content h2, 
+  .markdown-content h3, 
+  .markdown-content h4, 
+  .markdown-content h5, 
+  .markdown-content h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .markdown-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .markdown-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .markdown-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .markdown-content p {
+    margin-bottom: 1em;
+  }
+
+  .markdown-content ul, 
+  .markdown-content ol {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+  }
+
+  .markdown-content ul {
+    list-style-type: disc;
+  }
+
+  .markdown-content ol {
+    list-style-type: decimal;
+  }
+
+  .markdown-content li {
+    margin-bottom: 0.25em;
+  }
+
+  .markdown-content a {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+
+  .markdown-content a:hover {
+    text-decoration: none;
+  }
+
+  .markdown-content blockquote {
+    border-left: 4px solid var(--primary-light);
+    padding-left: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    margin-bottom: 1em;
+  }
+
+  .markdown-content code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  .dark .markdown-content code {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .markdown-content pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1em;
+  }
+
+  .dark .markdown-content pre {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .markdown-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.9em;
+  }
+
+  .markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em 0;
+  }
+
+  .markdown-content hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 2em 0;
+  }
+
+  .markdown-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    border: 1px solid var(--border-color);
+    padding: 0.5em;
+    text-align: left;
+  }
+
+  .markdown-content th {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .markdown-content th {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Client feature card styles */
+  .client-feature-card {
+    transition: all 0.18s cubic-bezier(.4,1,.7,1) !important;
+  }
+
+  .client-feature-card:hover, 
+  .client-feature-card:focus {
+    border-color: #a78bfa !important;
+    background-color: rgba(125, 80, 200, 0.10) !important;
+    box-shadow: 0 2px 12px 0 rgba(125,80,200,0.10) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .client-feature-card.selected {
+    border-color: #a78bfa !important;
+    box-shadow: 0 0 0 2px #a78bfa !important;
+  }
+
+  .client-feature-card.dark:hover, 
+  .client-feature-card.dark:focus {
+    border-color: #a78bfa !important;
+    background-color: rgba(125, 80, 200, 0.10) !important;
+    box-shadow: 0 2px 12px 0 rgba(125,80,200,0.10) !important;
+  }
+
+  .dark .client-feature-card.selected {
+    border-color: #a78bfa !important;
+    box-shadow: 0 0 0 2px #a78bfa !important;
+  }
+
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn:focus {
+    outline: none;
+  }
+
+  .btn-primary {
+    background-color: var(--primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+  }
+
+  .btn-secondary {
+    background-color: var(--secondary);
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--secondary-dark);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+  }
+
+  .btn-outline:hover {
+    background-color: var(--hover-light);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Card styles */
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(4px);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .card-gradient {
+    background-image: linear-gradient(to bottom right, rgba(124, 58, 237, 0.05), rgba(14, 165, 233, 0.05));
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(4px);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .card:hover, .card-gradient:hover {
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  /* Link styles */
+  a {
+    color: var(--secondary);
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  a:hover {
+    color: var(--primary);
+  }
+
+  /* Form element styles */
+  input, textarea, select {
+    background-color: var(--surface-light);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: var(--text-primary);
+    width: 100%;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    ring-width: 2px;
+    ring-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Utilities */
+  .glass {
+    background-color: rgba(30, 30, 35, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card {
+    background-color: rgba(30, 30, 35, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .gradient-text {
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .animated-gradient-bg {
+    background: linear-gradient(-45deg, var(--primary-dark), var(--primary), var(--secondary), var(--secondary-dark));
+    background-size: 400% 400%;
+    animation: gradient 8s ease infinite;
+  }
+  
+  /* Hover effect for action buttons */
+  .action-button {
+    color: var(--primary);
+    transition: all 0.2s ease;
+  }
+  
+  .action-button:hover {
+    color: white;
+    background-color: var(--primary);
+  }
+  
+  .dark .action-button:hover {
+    color: white;
+    background-color: var(--primary-dark);
+  }
+}
+
+/* Direct dark mode overrides */
+.dark .bg-white {
+  background-color: #1E1E23 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #131316 !important;
+}
+
+.dark .text-gray-800 {
+  color: #F8FAFC !important;
+}
+
+.dark .text-gray-700 {
+  color: #E2E8F0 !important;
+}
+
+.dark .text-gray-600 {
+  color: #CBD5E1 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #2D2D35 !important;
+}
+
+/* Direct light mode overrides */
+html:not(.dark) .bg-white {
+  background-color: #FFFFFF !important;
+}
+
+html:not(.dark) .bg-gray-50 {
+  background-color: #FAFAFA !important;
+}
+
+html:not(.dark) .text-gray-800 {
+  color: #111827 !important;
+}
+
+html:not(.dark) .text-gray-700 {
+  color: #374151 !important;
+}
+
+html:not(.dark) .text-gray-600 {
+  color: #4B5563 !important;
+}
+
+html:not(.dark) .border-gray-200 {
+  border-color: #E5E7EB !important;
+}
+
+/* Basic hover states for light and dark mode */
+.hover\:bg-gray-50:hover {
+  background-color: #F9FAFB !important;
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: #F3F4F6 !important;
+}
+
+.hover\:bg-primary:hover {
+  background-color: #7C3AED !important;
+  color: white !important;
+}
+
+.hover\:border-primary:hover {
+  border-color: #7C3AED !important;
+}
+
+.dark .hover\:bg-gray-800:hover {
+  background-color: #1F2937 !important;
+}
+
+.dark .hover\:border-primary:hover {
+  border-color: #9F7AEA !important;
+}
+
+/* Navigation hover effects */
+.nav-link:hover {
+  background-color: #F3F4F6 !important;
+  color: #7C3AED !important;
+}
+
+.dark .nav-link:hover {
+  background-color: #2D3748 !important;
+  color: #9F7AEA !important;
+}
+
+/* Utility rules that shouldn't conflict with Tailwind utilities */
+@layer custom {
+  /* Animation for gradient backgrounds */
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Card gradient hover effect */
+  .card-gradient-hover {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-gradient-hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .card-gradient-hover:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Fix for elements that use web components */
+:host {
+  /* Ensuring web components can receive their own margin/padding */
+  margin: initial;
+  padding: initial;
+}
+
+/* Dark mode styles for input fields - Updated to match thread writer */
+.dark-theme .mantine-Textarea-input,
+.dark-theme .mantine-TextInput-input,
+.dark-theme .mantine-PasswordInput-input,
+.dark-theme .mantine-NumberInput-input,
+.dark-theme .mantine-MultiSelect-input,
+.dark-theme .mantine-Select-input {
+  background-color: rgba(30, 30, 40, 0.5) !important;
+  color: #C1C2C5 !important;
+  border-color: rgba(90, 50, 140, 0.3) !important;
+}
+
+.dark-theme .mantine-Textarea-input::placeholder,
+.dark-theme .mantine-TextInput-input::placeholder,
+.dark-theme .mantine-PasswordInput-input::placeholder,
+.dark-theme .mantine-NumberInput-input::placeholder,
+.dark-theme .mantine-MultiSelect-input::placeholder,
+.dark-theme .mantine-Select-input::placeholder {
+  color: #5C5F66 !important;
+}
+
+.dark-theme .mantine-Textarea-input:focus,
+.dark-theme .mantine-TextInput-input:focus,
+.dark-theme .mantine-PasswordInput-input:focus,
+.dark-theme .mantine-NumberInput-input:focus,
+.dark-theme .mantine-MultiSelect-input:focus,
+.dark-theme .mantine-Select-input:focus {
+  border-color: rgba(90, 50, 140, 0.8) !important;
+}
+ 
